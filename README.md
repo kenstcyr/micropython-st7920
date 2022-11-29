@@ -1,6 +1,6 @@
 # Micropython ST7920
 
-Micropython library for simple graphic primitives on ST7920 128x64 monochrome LCD panel using ESP8266 and SPI
+Micropython library for simple graphic primitives on ST7920 128x64 monochrome LCD panel using a Raspberry Pi Pico and SPI
 
 # Features
 
@@ -11,13 +11,15 @@ import st7920
 screen = st7920.Screen()
 ```
 
-Can draw points, lines and rectangles to a framebuffer with e.g.
+Can draw points, lines, rectangles, circles, and text to a framebuffer with e.g.
 
 ```
 screen.plot(10, 10)
 screen.line(10, 10, 20, 20)
 screen.rect(25, 25, 50, 50)
 screen.fill_rect(5, 5, 95, 95)
+screen.circle(30, 30, 6)
+screen.put_text("Text", 0, 0)
 ```
 
 Can draw inverse with e.g.
@@ -26,10 +28,9 @@ Can draw inverse with e.g.
 screen.plot(10, 10, False)
 screen.line(10, 10, 20, 20, False)
 screen.rect(25, 25, 50, 50, False)
-screen.fill_rect(5, 5, 95, 95, False)
 ```
 
-Then send finished 1kbyte frame to the screen at 1.8Mbaud with...
+Then send finished 1kbyte frame to the screen at 1Mbaud with...
 
 ```
 screen.redraw()
@@ -41,52 +42,11 @@ screen.clear()
 screen.redraw()
 ```
 
-# Included Example
-
-Install ampy by running...
-
-```bash
-pip install adafruit-ampy
-```
-
-Then change to this directory and upload files...
-
-```bash
-ampy --port /dev/ttyUSB0 put st7920.py
-ampy --port /dev/ttyUSB0 put example.py
-```
-
-You should then be able to interactively run the following from the REPL...
-
-```python
-import example
-example.run
-```
-
-Alternatively upload the main.py file as well as follows...
-
-```bash
-ampy --port /dev/ttyUSB0 put main.py
-```
-
-...and the example will automatically run on boot
-
-
-# Typography
-
-See also @ShrimpingIt's [bitfont project](https://github.com/ShrimpingIt/bitfont) 
-for pixel typography logic which can be used with micropython-st7920 and 
-other bit-rendering environments.
-
 # Credits
 
-Developed by @cefn of @ShrimpingIt based on @JMW95's incredibly useful reference Raspberry Pi python SPI port at https://github.com/JMW95/pyST7920, funded by the Milecastles project
+Based on project developed by @cefn of @ShrimpingIt, which is based on @JMW95's incredibly useful reference Raspberry Pi python SPI port at https://github.com/JMW95/pyST7920, funded by the Milecastles project.  Last modified by @kenstcyr.
 
-# Todo
-
-Consider use of Micropython's [framebuf](https://docs.micropython.org/en/latest/esp8266/library/framebuf.html) Framebuffer library to see if it offers any acceleration, or just for conformance with other libraries - draw primitives look like they are the same.
-
-
+Leverages [MicroBMP library](https://github.com/jacklinquan/microbmp) for loading fontsheet PNG file for drawing text.
 
 # See also
 

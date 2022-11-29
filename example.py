@@ -1,31 +1,26 @@
 import st7920
-from machine import Pin
 
-# implicitly uses hardware spi; https://docs.micropython.org/en/latest/esp8266/esp8266/quickref.html#hardware-spi-bus
-screen = st7920.Screen(slaveSelectPin=Pin(15), resetDisplayPin=Pin(5))
+lcd = st7920.Screen(cs=5, rst=0)    # Create the lcd object
+lcd.graphics_mode()                 # Put the LCD into graphics mode
+lcd.clear()                         # Clear the screen
 
-def clear():
-    screen.clear()
-    screen.redraw()
+lcd.rect(28, 14, 100, 46)           # Draw a rectangle
+lcd.rect(26, 12, 102, 48)           # Draw another rectangle
 
-def draw():
+lcd.fill_rect(108, 20, 123, 40)     # Draw a filled rectangle
 
-    # write zeroes to the buffer
-    screen.clear()
+lcd.rect(110, 36, 121, 38, False)   # Remove a rectangle
 
-    # draw some points, lines, rectangles, filled rectangles in the buffer
-    screen.plot(5, 5)
-    screen.line(10, 10, 15, 15)
-    screen.rect(20, 20, 25, 25)
-    screen.fill_rect(30, 30, 40, 40)
-    screen.fill_rect(32, 32, 38, 38, False)
+lcd.circle(64, 30, 10)              # Draw a circle
 
-    # send the buffer to the display
-    screen.redraw()
+lcd.plot(2, 37)                     # Draw a dot
+lcd.plot(70, 19)                    # Draw another dot
+lcd.plot(125, 62)                   # Draw another dot
 
-def run():
-    clear()
-    draw()
+lcd.plot(112, 24, False)            # Remove a dot
 
-if __name__ == "__main__":
-    run()
+lcd.put_text("Example", 44, 3)      # Write some text
+
+lcd.line(10, 5, 20, 60)             # Draw a line
+
+lcd.redraw()                        # Repaint the display
